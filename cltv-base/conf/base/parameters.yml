@@ -1,0 +1,106 @@
+# Data Standardisation
+
+orders_df_name: "Orders" # Renamed from df_name_orders
+transactions_df_name: "Transactions" # Renamed from df_name_transactions
+behavioral_df_name: "Behavioral" # Renamed from df_name_transactions
+
+# Operations Parameters
+at_risk_threshold_days: 70 # Customers with recency > this are considered at risk
+
+# Churn Model Parameters
+churn_inactive_days_threshold: 30
+churn_model_n_estimators: 100
+churn_model_random_state: 42
+predicted_churn_probability_threshold: 0.5 
+
+# Cox Model Parameters
+cox_model_churn_threshold: 30 
+cox_feature_cols:
+  - aov
+  - recency  
+  - monetary
+  - avg_days_between_orders
+  - frequency
+
+
+user_threshold_value: 0.5
+threshold_metric: ['rfm_score']
+selected_threshold_dict:
+  recency: 30
+  frequency: 5
+  monetary: 100
+  rfm_score: 50
+inactive_days_threshold: 27
+
+customer_col: User ID
+date_col: Purchase Date
+order_col: Transaction ID
+amount_col: Total Amount
+
+# --- Outlier Capping Parameters (Interactive via Streamlit) ---
+capping_multiplier: 3.0
+capping_quantile: 0.75
+capping_columns: # Default columns related to revenue/monetary value
+  - Total Order Value
+  - Total Product Sum
+  - Total Payable Value
+
+#new mapping logic related parameters
+
+data_standardisation_params:
+  # SSOT Mapping Parameters
+  ssot_mapping_sheet_name: "Sheet1"
+  ssot_mapping_model: "all-MiniLM-L6-v2"
+  
+  # Mapping Thresholds
+  ssot_threshold_fuzzy: 70
+  ssot_threshold_tfidf: 0.6
+  ssot_threshold_emb: 0.6
+  ssot_threshold_fallback: 0.5
+  
+  # Existing expected column mappings (needed for other nodes, but grouped here)
+expected_orders_cols: # Renamed from mapping_orders_expected_cols
+  Transaction ID: ["Transaction ID", "transaction_id"]
+  Order ID: ["order_item_id", "Order ID", "order_id"]
+  Product ID: ["Product ID", "product_id", "SKU", "Item Code", "product_id"]
+  Quantity: ["Quantity", "Qty", "order_quantity", "quantity"]
+  Unit Price: ["unit_price", "price"]
+  Total Product Price: ["total_amount", "total_product_price"] 
+  Return Status: ["Return Status", "return_stat", "is_returned"]
+  Return Date: ["Return Date", "return_date"]
+
+expected_transaction_cols: # Renamed from mapping_transactions_expected_cols
+  Transaction ID: ["Transaction ID", "transaction_id"]
+  Visit ID: ["Visit ID", "visit_id"]
+  Order ID: ["Order ID", "order_id"]
+  User ID: ["customer_id", "User ID", "user_id", "Customer ID"]
+  Purchase Date: ["purchase_timestamp", "Purchase Date", "purchase_date", "Transaction Date"]
+  Payment Method: ["Payment Method", "payment_method", "Mode of Payment"]
+  Discount Code Used: ["Discount Code Used", "discount_code_used", "promo_code"]
+  Discount Value: ["Discount Value", "discount_value", "discount_amount"]
+  Shipping Cost: ["Shipping Cost", "shipping_cost", "freight"]
+  Total Amount: ["Total_amount","Total_amount_per_transaction", "total_amount"]
+  Total Payable: ["Total Payable", "total_payable", "amount_payable"]
+
+expected_behavioral_cols:
+  Visit ID: ["visit_id", "Visit ID", "visitID"]
+  Customer ID: ["customer_id", "Customer ID", "user_id", "User ID"]
+  Session ID: ["session_id", "Session ID", "sess_id"]
+  Visit Timestamp: ["visit_timestamp", "Visit Timestamp", "session_start_time", "visit_time"]
+  Channel: ["channel", "Channel", "traffic_source", "source_channel"]
+  Geo Location: ["geo_location", "Geo Location", "location", "region", "country"]
+  Device ID: ["device_id", "Device ID", "dev_id"]
+  Device Type: ["device_type", "Device Type", "platform", "user_device"]
+  # Cookie ID: ["cookie_id", "Cookie ID", "browser_cookie"]
+  OS: ["os", "OS", "operating_system"]
+  Entry Page: ["entry_page", "Entry Page", "landing_page"]
+  Exit Page: ["exit_page", "Exit Page", "last_page"]
+  Sponsored Listing Viewed: ["sponsored_listing_viewed", "Sponsored Listing Viewed", "sponsored_ad_view"]
+  Banner Viewed: ["banner_viewed", "Banner Viewed", "ad_banner_seen"]
+  Homepage Promo Seen: ["homepage_promo_seen", "Homepage Promo Seen", "home_promo_view"]
+  Product Search View: ["product_search_view", "Product Search View", "search_performed"]
+  Session Total Cost: ["session_total_cost", "Session Total Cost", "session_spent"]
+  Session Duration: ["session_duration", "Session Duration", "time_spent"]
+  Page Views: ["page_views", "Page Views", "pages_visited"]
+  Bounce Flag: ["bounce_flag", "Bounce Flag", "bounced", "is_bounce"]
+  Ad Campaign ID: ["ad_campaign_id", "Ad Campaign ID", "campaign_id"]

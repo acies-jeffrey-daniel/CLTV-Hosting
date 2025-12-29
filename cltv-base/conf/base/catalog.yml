@@ -1,0 +1,274 @@
+# Solutions_CLTV_A2A\cltv-base\conf\base\catalog.yml
+
+# Raw data
+current_orders_data:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/current_orders_data.csv
+
+current_transactions_data:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/current_transactions_data.csv
+
+# NOTE: Using OptionalCSVDataset to handle missing file gracefully
+current_behavioral_data:
+  type: optional_csv_dataset.OptionalCSVDataset
+  filepath: data/01_raw/current_behavioral_data.csv
+
+# Intermediate datasets (outputs of your preprocessing nodes)
+orders_standardized:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/orders_standardized.parquet
+
+transactions_standardized:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/transactions_standardized.parquet
+
+# --- Behavioral Intermediates (Set to MemoryDataSet for robustness in OT-only runs) ---
+behavioral_standardized:
+  type: MemoryDataset
+
+orders_typed:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/orders_typed.parquet
+
+transactions_typed:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/transactions_typed.parquet
+
+behavioral_typed:
+  type: MemoryDataset
+
+orders_merged_with_user_id:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/orders_merged_with_user_id.parquet
+
+customer_aggregated_behavioral_data:
+  type: MemoryDataset 
+
+customer_aggregated_orders_transaction_data:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/customer_aggregated_transaction_data.parquet
+
+customer_level_merged_data:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/customer_level_merged_data.parquet
+
+# Datasets for core operations
+customer_level_features:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/customer_level_features.parquet
+
+rfm_segmented_df:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/rfm_segmented_df.parquet
+
+rfm_segmented_with_historical_cltv:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/rfm_segmented_with_historical_cltv.parquet
+
+customers_at_risk_df:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/customers_at_risk_df.parquet 
+
+rfm_segmented_labeled_churn:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/rfm_segmented_labeled_churn.parquet
+
+churn_features_X:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/churn_features_X.parquet
+
+churn_labels_y:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/churn_labels_y.parquet
+
+rfm_segmented_survival_data:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/rfm_segmented_survival_data.parquet
+
+# engagement score calculation
+customer_level_merged_data_engagement_score:
+  type: MemoryDataset
+
+# Model outputs
+predicted_cltv_df:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/predicted_cltv_df.parquet
+
+cltv_prediction_xgboost:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/cltv_prediction_xgboost.parquet
+
+cltv_prediction_lightgbm:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/cltv_prediction_lightgbm.parquet
+
+cltv_prediction_catboost:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/cltv_prediction_catboost.parquet
+
+catboost_model:
+  type: pickle.PickleDataset
+  filepath: data/03_primary/catboost_model.pkl
+
+cltv_model_comparison_metrics:
+  type: json.JSONDataset
+  filepath: data/07_model_output/cltv_model_comparison_metrics.json  
+
+churn_model:
+  type: pickle.PickleDataset 
+  filepath: data/03_primary/churn_model.pkl
+
+churn_report:
+  type: json.JSONDataset 
+  filepath: data/03_primary/churn_classification_report.json
+
+churn_feature_importances:
+  type: json.JSONDataset
+  filepath: data/03_primary/churn_feature_importances.json
+
+churn_X_test:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/churn_X_test.parquet
+
+churn_y_test:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/churn_y_test.parquet
+
+cox_model:
+  type: pickle.PickleDataset
+  filepath: data/03_primary/cox_model.pkl
+
+rfm_segmented_with_cox_predictions:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/rfm_segmented_with_cox_predictions.parquet
+
+predicted_churn_probabilities:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/predicted_churn_probabilities.parquet
+
+predicted_churn_labels:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/predicted_churn_labels.parquet
+
+# UI-specific data (pre-calculated for display)
+kpi_data_for_ui:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/kpi_data_for_ui.parquet
+
+segment_summary_data_for_ui:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/segment_summary_data_for_ui.parquet
+
+segment_counts_data_for_ui:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/segment_counts_data_for_ui.parquet
+
+top_products_by_segment_data_for_ui:
+  type: pickle.PickleDataset 
+  filepath: data/04_feature/top_products_by_segment_data_for_ui.pkl
+
+predicted_cltv_display_data_for_ui:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/predicted_cltv_display_data_for_ui.parquet
+
+cltv_comparison_data_for_ui:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/cltv_comparison_data_for_ui.parquet
+
+realization_curve_data_for_ui:
+  type: pickle.PickleDataset
+  filepath: data/04_feature/realization_curve_data_for_ui.pkl
+
+churn_summary_data_for_ui:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/churn_summary_data_for_ui.parquet
+
+active_days_summary_data_for_ui:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/active_days_summary_data_for_ui.parquet
+
+churn_detailed_view_data_for_ui:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/churn_detailed_view_data_for_ui.parquet
+
+ml_predicted_cltv_display_data_for_ui:
+  type: pickle.PickleDataset 
+  filepath: data/04_feature/ml_predicted_cltv_display_data_for_ui.pkl
+# Final combined data for the UI 
+
+final_rfm_cltv_churn_data:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/final_rfm_cltv_churn_data.parquet
+
+calculated_distribution_threshold:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/calculated_distribution_threshold.json
+
+calculated_user_value_threshold:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/calculated_user_value_threshold.json
+
+calculated_ml_threshold:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/calculated_ml_threshold.json
+
+metric_thresholds: 
+  type: json.JSONDataset
+  filepath: data/02_intermediate/metric_thresholds.json
+monthly_rfm:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/monthly_rfm.parquet
+
+quarterly_rfm:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/quarterly_rfm.parquet
+
+monthly_pair_migrations:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/monthly_pair_migrations.pkl
+  backend: pickle
+
+quarterly_pair_migrations:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/quarterly_pair_migrations.pkl
+  backend: pickle
+
+# --- EDA Reports ---
+orders_eda_report:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/orders_eda_report.json
+
+transactions_eda_report:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/transactions_eda_report.json
+
+behavioral_eda_report:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/behavioral_eda_report.json
+
+customer_aggregated_orders_transaction_data_pre_cap:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/customer_aggregated_transaction_data_pre_cap.parquet
+  
+# New capped outputs
+orders_txn_capping_values:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/orders_txn_capping_values.json
+
+# mapping related files
+ssot_mapping_file:
+  type: pandas.ExcelDataset
+  filepath: data/00_external/SSOT_Mapping.xlsx 
+
+orders_mapping_report:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/orders_mapping_report.json
+
+transactions_mapping_report:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/transactions_mapping_report.json
+
+behavioral_mapping_report:
+  type: json.JSONDataset
+  filepath: data/02_intermediate/behavioral_mapping_report.json

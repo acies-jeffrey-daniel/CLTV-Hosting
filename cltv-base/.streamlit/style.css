@@ -1,0 +1,17 @@
+/* .streamlit/style.css */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); */
+
+html, body, [class*="st-"] {
+    font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: sans-serif;
+    font-weight: 600; /* Adjust as needed */
+}
+
+/* Optional: Adjust font weight for specific elements if desired */
+.stMarkdown h1 { font-weight: 700; }
+.stMarkdown h2 { font-weight: 600; }
+.stMarkdown h3 { font-weight: 500; }
