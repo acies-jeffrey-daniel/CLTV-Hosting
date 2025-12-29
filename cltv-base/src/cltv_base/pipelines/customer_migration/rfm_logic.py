@@ -26,7 +26,7 @@ def assign_segment(row):
     # 4. Recent Customers: High Recency, lower FM.
 
     elif r >= 4 and fm <= 2:
-        return 'Recent Customers'
+        return 'Activated/Reactived'
 
     # 5. Loyal Lapsers: Low Recency, but high FM.
 

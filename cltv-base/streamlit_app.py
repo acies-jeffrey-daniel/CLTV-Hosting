@@ -199,20 +199,20 @@ def show_findings_ui(kpi_data: Dict, segment_summary_data: pd.DataFrame, segment
     segment_colors = {
         "Champions": "#F7B731",
         "Potential Champions": "#26DE81",
-        "Recent Customers": "#45AAF2",
+        "Activated/Reactived": "#45AAF2",
         "Customers Needing Attention": "#FD9644",
         "Loyal Lapsers": "#9B59B6",
         "About to Sleep": "#FC5C65",
         "Lost": "#95A5A6"
     }
 
-    segment_order_display = ['Champions', 'Potential Champions', 'Recent Customers', 
+    segment_order_display = ['Champions', 'Potential Champions', 'Activated/Reactived', 
                 'Customers Needing Attention', 'Loyal Lapsers', 'About to Sleep', 'Lost']
     
     segment_descriptions = {
         'Champions': "The cream of the crop - your top customers who are the most loyal and generate the most of the revenue. They buy recently, frequently, and spend a lot.",
-        'Potential Champions': "Recent customers who have made a few purchases and have good potential to become loyal customers if nurtured. They need attention to increase frequency and monetary value.",
-        'Recent Customers': "Customers who have made a purchase very recently. They are still fresh and might make repeat purchases soon.",
+        'Potential Champions': "Customers who have made a few purchases and have good potential to become loyal customers if nurtured. They need attention to increase frequency and monetary value.",
+        'Activated/Reactived': "Customers who have made a purchase very recently. They might make repeat purchases soon.",
         'Customers Needing Attention': "Customers who haven't purchased for a while and might be at risk of churning. They need re-engagement strategies.",
         'About to Sleep': "Customers who were active but haven't purchased recently. They are on the verge of becoming 'Lost'.",
         'Loyal Lapsers': "Customers who haven't purchased for a significant period and are likely to churn. Customers who used make more revenue are now at the verge of being of lost.",
@@ -263,7 +263,7 @@ def show_findings_ui(kpi_data: Dict, segment_summary_data: pd.DataFrame, segment
                 gradient_map = {
                     "Champions": "linear-gradient(135deg, #FFD700 0%, #FFA500 100%)",
                     "Potential Champions": "linear-gradient(135deg, #3DDAB4 0%, #00A884 100%)",
-                    "Recent Customers": "linear-gradient(135deg, #6EC3F4 0%, #3A8DFF 100%)",
+                    "Activated/Reactived": "linear-gradient(135deg, #6EC3F4 0%, #3A8DFF 100%)",
                     "Customers Needing Attention": "linear-gradient(135deg, #FFB46A 0%, #FF7A59 100%)",
                     "Loyal Lapsers": "linear-gradient(135deg, #A78BFA 0%, #6366F1 100%)",
                     "About to Sleep": "linear-gradient(135deg, #FF7A59 0%, #FF4B4B 100%)",
@@ -383,7 +383,7 @@ def show_findings_ui(kpi_data: Dict, segment_summary_data: pd.DataFrame, segment
         )
 
         new_segment_options = [
-            'Overall', 'Champions', 'Potential Champions', 'Recent Customers', 
+            'Overall', 'Champions', 'Potential Champions', 'Activated/Reactived', 
             'Customers Needing Attention', 'Loyal Lapsers', 'About to Sleep', 'Lost', 'Unclassified'
         ]
         selected_segment = st.selectbox(
@@ -479,7 +479,7 @@ def show_prediction_tab_ui(
     with st.expander("Predicted CLTV Table (BG/NBD + Gamma-Gamma)", expanded=False):
         if not predicted_cltv_display_data.empty:
             new_segment_options = [
-                "Champions", "Potential Champions", "Recent Customers",
+                "Champions", "Potential Champions", "Activated/Reactived",
                 "Customers Needing Attention", "Loyal Lapsers",
                 "About to Sleep", "Lost", "Unclassified"
             ]
@@ -518,7 +518,7 @@ def show_prediction_tab_ui(
 
         if not selected_df.empty:
             new_segment_options = [
-                "Champions", "Potential Champions", "Recent Customers",
+                "Champions", "Potential Champions", "Activated/Reactived",
                 "Customers Needing Attention", "Loyal Lapsers",
                 "About to Sleep", "Lost", "Unclassified"
             ]
@@ -605,20 +605,20 @@ def show_prediction_tab_ui(
     #             st.warning("Predicted CLTV (CatBoost) data not available.")
 
     # --- 5️⃣ CLTV Comparison Chart ---
-    with st.expander("CLTV Comparison Chart", expanded=False):
-        if not cltv_comparison_data.empty:
-            fig_bar = px.bar(
-                cltv_comparison_data,
-                x="segment",
-                y="Average CLTV",
-                color="CLTV Type",
-                barmode="group",
-                labels={"segment": "Customer Segment", "Average CLTV": "Avg CLTV (₹)"},
-                title="Average Historical vs Predicted CLTV per Segment"
-            )
-            st.plotly_chart(fig_bar, use_container_width=True)
-        else:
-            st.warning("CLTV comparison data not available.")
+    # with st.expander("CLTV Comparison Chart", expanded=False):
+    #     if not cltv_comparison_data.empty:
+    #         fig_bar = px.bar(
+    #             cltv_comparison_data,
+    #             x="segment",
+    #             y="Average CLTV",
+    #             color="CLTV Type",
+    #             barmode="group",
+    #             labels={"segment": "Customer Segment", "Average CLTV": "Avg CLTV (₹)"},
+    #             title="Average Historical vs Predicted CLTV per Segment"
+    #         )
+    #         st.plotly_chart(fig_bar, use_container_width=True)
+    #     else:
+    #         st.warning("CLTV comparison data not available.")
 
 def show_eda_reports_ui(orders_report: Dict, transactions_report: Dict, behavioral_report: Dict):
     st.subheader("Exploratory Data Analysis (EDA) Reports")
@@ -763,9 +763,9 @@ def show_detailed_view_ui(
 def show_realization_curve_ui(realization_curve_data: Dict[str, pd.DataFrame]):
     st.subheader("Realization Curve of CLTV Over Time")
     if realization_curve_data:
-        all_options = ['Overall Average', 'Champions', 'Potential Champions', 'Recent Customers', 
+        all_options = ['Overall Average', 'Champions', 'Potential Champions', 'Activated/Reactived', 
                 'Customers Needing Attention', 'Loyal Lapsers', 'About to Sleep', 'Lost']
-        default_selected = ['Overall Average']
+        default_selected = ['Overall Average','Champions', 'Potential Champions', 'About to Sleep']
         selected_options = st.multiselect(
             "Select Customer Group(s) for CLTV Curve",
             options=all_options,
@@ -794,7 +794,7 @@ def show_realization_curve_ui(realization_curve_data: Dict[str, pd.DataFrame]):
                     "Champions": "rgba(218, 165, 32, 1.0)",
                     "Potential Champions": "rgba(60, 179, 113, 1.0)",
                     "Customers Needing Attention": "rgba(255, 165, 0, 1.0)",
-                    "Recent Customers": "rgba(70, 130, 180, 1.0)",
+                    "Activated/Reactived": "rgba(70, 130, 180, 1.0)",
                     "Loyal Lapsers": "rgba(106, 90, 205, 1.0)",
                     "About to Sleep": "rgba(255, 99, 71, 1.0)",
                     "Lost": "rgba(128, 128, 128, 1.0)"
@@ -893,7 +893,7 @@ def show_churn_tab_ui(rfm_segmented: pd.DataFrame, churn_summary_data: pd.DataFr
         "Champions": "rgba(218, 165, 32, 1.0)",
         "Potential Champions": "rgba(60, 179, 113, 1.0)",
         "Customers Needing Attention": "rgba(255, 165, 0, 1.0)",
-        "Recent Customers": "rgba(70, 130, 180, 1.0)",
+        "Activated/Reactived": "rgba(70, 130, 180, 1.0)",
         "Loyal Lapsers": "rgba(106, 90, 205, 1.0)",
         "About to Sleep": "rgba(255, 99, 71, 1.0)",
         "Lost": "rgba(128, 128, 128, 1.0)"
@@ -941,7 +941,7 @@ def show_churn_tab_ui(rfm_segmented: pd.DataFrame, churn_summary_data: pd.DataFr
 
 #Migration related code
 def _segments_in_order(df: pd.DataFrame):
-    preferred =  ['Champions', 'Potential Champions', 'Recent Customers', 
+    preferred =  ['Champions', 'Potential Champions', 'Activated/Reactived', 
                 'Customers Needing Attention', 'Loyal Lapsers', 'About to Sleep', 'Lost', 'Unclassified']
     present = [s for s in preferred if s in df['Segment'].unique().tolist()]
     extras = sorted(list(set(df['Segment'].unique().tolist()) - set(present)))
@@ -1129,13 +1129,13 @@ def show_customer_migration_tab_ui(monthly_rfm: pd.DataFrame,
     fig_hm.update_layout(margin=dict(l=0, r=0, t=30, b=0), height=520)
     st.plotly_chart(fig_hm, use_container_width=True)
 
-    seg_list = ['Champions', 'Potential Champions', 'Recent Customers', 
+    seg_list = ['Champions', 'Potential Champions', 'Activated/Reactived', 
                 'Customers Needing Attention', 'Loyal Lapsers', 'About to Sleep', 'Lost']
     segment_palette = {
         "Champions": "rgba(218, 165, 32, 1.0)",
         "Potential Champions": "rgba(60, 179, 113, 1.0)",
         "Customers Needing Attention": "rgba(255, 165, 0, 1.0)",
-        "Recent Customers": "rgba(70, 130, 180, 1.0)",
+        "Activated/Reactived": "rgba(70, 130, 180, 1.0)",
         "Loyal Lapsers": "rgba(106, 90, 205, 1.0)",
         "About to Sleep": "rgba(255, 99, 71, 1.0)",
         "Lost": "rgba(128, 128, 128, 1.0)"
@@ -1195,7 +1195,7 @@ def show_customer_migration_tab_ui(monthly_rfm: pd.DataFrame,
             )
         ))
         fig.update_layout(title="Customer Migration Flow", font=dict(size=15, color="white"),
-                          margin=dict(l=50, r=50, t=30, b=50), height=545)
+                        margin=dict(l=50, r=50, t=30, b=50), height=545)
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.info("No links to display with the current selection.")

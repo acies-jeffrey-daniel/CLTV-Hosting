@@ -55,7 +55,7 @@ def assign_segment(row):
     elif (r >= 4 and fm == 3) or (r == 3 and fm == 4):
         return 'Customers Needing Attention'
     elif r >= 4 and fm <= 2:
-        return 'Recent Customers'
+        return 'Activated/Reactived'
     elif r <= 3 and fm >= 3:
         return 'Loyal Lapsers'
     elif (r <= 3 and fm <= 2) or (r <= 2 and fm <= 2):
